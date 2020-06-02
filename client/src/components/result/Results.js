@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import Fab from '@material-ui/core/Fab';
@@ -6,13 +6,19 @@ import SearchInfo from '../search/SearchInfo';
 import Error from '../layout/Error';
 import Result from '../result/Result';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import { clearErrors } from '../../action/searchActions';
 
-const Results = ({search:{search_query, quotes, loading, error}}) => {
+const Results = ({search:{search_query, quotes, loading, error}, clearErrors}) => {
 	const numberPerLoad = 10;
 	const [limit, setLimit] = useState(numberPerLoad);
+
+	useEffect(() => {
+		clearErrors();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
+
 	const loadMore = () =>{
 		const number = limit + numberPerLoad;
-		console.log(number)
 		setLimit(number)
 	}
 
@@ -75,11 +81,13 @@ const Results = ({search:{search_query, quotes, loading, error}}) => {
 
 Results.propTypes = {
 	search: PropTypes.object.isRequired,
+	clearErrors: PropTypes.func,
+	error: PropTypes.string,
 }
 
 const mapStateToProps = state => ({
 	search: state.search
 })
 
-export default connect(mapStateToProps, {})(Results)
+export default connect(mapStateToProps, {clearErrors})(Results)
 

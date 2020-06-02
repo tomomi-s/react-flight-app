@@ -32,7 +32,7 @@ export const getPlaces = (query) => async dispatch => {
 	}catch(err){
 		dispatch({
 			type: SEARCH_ERROR,
-			payload: err.response.statusText
+			payload: "Something went wrong."
 		})
 	}		
 }
@@ -84,7 +84,7 @@ export const searchFlight = (query) => async dispatch => {
 		console.log(err)
 		dispatch({
 			type: SEARCH_ERROR,
-			payload: err.response.statusText
+			payload: "Something went wrong."
 		})
 	}
 }

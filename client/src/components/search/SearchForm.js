@@ -1,5 +1,5 @@
 import 'date-fns';
-import React , {useState, useEffect} from 'react'
+import React , {useState} from 'react'
 import { useHistory } from "react-router-dom";
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
@@ -14,7 +14,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import Fab from '@material-ui/core/Fab';
-import { searchFlight, clearErrors } from '../../action/searchActions';
+import { searchFlight } from '../../action/searchActions';
 
 const useStyles = makeStyles(theme => ({
   TextField: {
@@ -25,17 +25,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const SearchForm = ({props, searchFlight, clearErrors, error}) => {
-	useEffect(() => {
-		return () => {
-			clearErrors();
-		};
-	}, [])
+const SearchForm = ({props, searchFlight}) => {
 	
 	let history = useHistory();
 	const classes = useStyles();
 
 	const today = new Date(new Date().setHours(0,0,0,0));
+
 	const [searchInfo, setSearchInfo] = useState({
 		selectedDeparture: '',
 		selectedReturn: '',
@@ -45,24 +41,30 @@ const SearchForm = ({props, searchFlight, clearErrors, error}) => {
 		selectedReturnDate: new Date(today.setDate(today.getDate() + 7)),
 		Passenger: 1,
 	});
+	console.log(searchInfo)
 
+	// const { selectedDeparture, selectedReturn, selectedReturnDate, Passenger } = searchInfo;
 	const { selectedDeparture, selectedReturn, selectedDepartDate, selectedReturnDate, Passenger } = searchInfo;
 
 	const handleDate = (n) => (date) => {
+		console.log(searchInfo)
 		if(n === 1){
 			console.log(1)
-			if(date >= selectedReturnDate){
-				console.log(date)
-				console.log(selectedReturnDate)
-				console.log(new Date(date.setDate(date.getDate() + 7)))
-				setSearchInfo({...searchInfo, 
-					selectedDepartDate: date, 
-					selectedReturnDate: new Date(date.setDate(date.getDate() + 7))})
-				console.log(searchInfo)
-			}
-			else{
-				setSearchInfo({...searchInfo, selectedDepartDate: date})
-			}
+			//todo-fix(somehow set date strangely)
+			// if(date >= selectedReturnDate){
+			// 	console.log(3)
+			// 	// console.log(date)
+			// 	// console.log(selectedReturnDate)
+			// 	// console.log(new Date(date.setDate(date.getDate() + 7)))
+			// 	setSearchInfo({...searchInfo, 
+			// 		selectedDepartDate: date, 
+			// 		selectedReturnDate: new Date(date.setDate(date.getDate() + 7))})
+			// }
+			// else{
+			// 	console.log(4)
+			// 	setSearchInfo({...searchInfo, selectedDepartDate: date})
+			// }
+			setSearchInfo({...searchInfo, selectedDepartDate: date})
 		}else if(n === 2){
 			console.log(2)
 			setSearchInfo({...searchInfo, selectedReturnDate: date})
@@ -113,6 +115,7 @@ const SearchForm = ({props, searchFlight, clearErrors, error}) => {
 					          value={selectedDepartDate}
 					          name="selectedDepartDate"
 					          onChange={handleDate(1)}
+					          //onChange={setSelectedDepartDate}
 					          
 					        />
 				        </div>
@@ -128,9 +131,7 @@ const SearchForm = ({props, searchFlight, clearErrors, error}) => {
 					          label="Return"
 					          value={selectedReturnDate}
 					          onChange={handleDate(2)}
-					          KeyboardButtonProps={{
-					            'aria-label': 'change date',
-					          }}
+					          
 					        />
 				        </div>
 			        </MuiPickersUtilsProvider>
@@ -158,7 +159,7 @@ const SearchForm = ({props, searchFlight, clearErrors, error}) => {
 					    	variant="extended" 
 					    	color="primary" 
 					    	aria-label="add"
-					    	disabled={!selectedDeparture || !selectedReturn}
+					    	//disabled={!selectedDeparture || !selectedReturn || selectedDepartDate >= selectedReturnDate}
 					    	className={classes.margin}
 					    >
 				          Search Flights
@@ -171,9 +172,7 @@ const SearchForm = ({props, searchFlight, clearErrors, error}) => {
 }
 
 SearchForm.propTypes = {
-	searchFlight: PropTypes.func.isRequired,
-	clearErrors: PropTypes.func,
-	error: PropTypes.string,
+	searchFlight: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
@@ -181,4 +180,4 @@ const mapStateToProps = (state, ownProps) => ({
 	props: ownProps
 })
 
-export default connect(mapStateToProps, {searchFlight, clearErrors})(SearchForm);
+export default connect(mapStateToProps, {searchFlight})(SearchForm);
