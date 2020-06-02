@@ -115,8 +115,6 @@ const SearchForm = ({props, searchFlight}) => {
 					          value={selectedDepartDate}
 					          name="selectedDepartDate"
 					          onChange={handleDate(1)}
-					          //onChange={setSelectedDepartDate}
-					          
 					        />
 				        </div>
 				        <div className="col-md-4 col-lg-2">
@@ -159,7 +157,7 @@ const SearchForm = ({props, searchFlight}) => {
 					    	variant="extended" 
 					    	color="primary" 
 					    	aria-label="add"
-					    	//disabled={!selectedDeparture || !selectedReturn || selectedDepartDate >= selectedReturnDate}
+					    	disabled={!selectedDeparture || !selectedReturn || selectedDepartDate >= selectedReturnDate}
 					    	className={classes.margin}
 					    >
 				          Search Flights

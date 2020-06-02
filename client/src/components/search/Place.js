@@ -37,6 +37,8 @@ const Place = ({getPlaces, onPlaceSelected}) => {
 	const handleChange = (selectedOption) => {
 		if(selectedOption){
 			onPlaceSelected(selectedOption)
+		}else{
+			onPlaceSelected({PlaceId: '', PlaceName: ''})
 		}
 		console.log(`Option selected:`, selectedOption);
 	}
