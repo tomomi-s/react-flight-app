@@ -1,0 +1,26 @@
+{
+  "name": "react-flight-search",
+  "version": "1.0.0",
+  "description": "Flight search app with skyscanner api",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "clientinstall": "npm install --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "config": "^3.1.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "unirest": "^0.6.0"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.0",
+    "nodemon": "^1.19.1"
+  }
+}
